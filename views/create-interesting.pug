@@ -6,35 +6,16 @@ block content
         label(for="age") Age:
         input(type="number" id="age" name="age" value=age)
         label(for="favoriteBeatle") Favorite Beatle:
-        select(name="favoriteBeatle" id="favoriteBeatle" value="favoriteBeatle")
+        select(name="favoriteBeatle" id="favoriteBeatle" value=favoriteBeatle)
             option(value="") --Please choose an option--
-            option(value="John") John
-            option(value="Paul") Paul
-            option(value="Ringo") Ringo
-            option(value="George") George
-            option(value="Scooby-Doo") Scooby-Doo
+            each beatle  in ["John", "Paul", "Ringo", "George", "Scooby-Doo"]
+                if (beatle === favoriteBeatle)
+                    option(value=beatle selected="selected")= beatle
+                else
+                    option(value=beatle)= beatle
         label(for="iceCream") Likes ice cream:
-        input(type="checkbox" name="iceCream" value="iceCream")
+        if (iceCream)
+            input(type="checkbox" name="iceCream" value=iceCream checked)
+        else
+            input(type="checkbox" name="iceCream" value=iceCream)
         input(type="submit" value="Create Interesting User")
-
-
-
-//-   it("render an age input field", () => {
-//-     expect($("input[type='number'][name='age']").length).to.equal(1);
-//-   });
-
-//-   it("renders a select dropdown for favoriteBeatle", () => {
-//-     expect($("select[name='favoriteBeatle']").length).to.equal(1);
-//-     expect($("option[value='']").text()).to.equal(
-//-       "--Please choose an option--"
-//-     );
-//-     expect($("option[value='John']").text()).to.equal("John");
-//-     expect($("option[value='Paul']").text()).to.equal("Paul");
-//-     expect($("option[value='Ringo']").text()).to.equal("Ringo");
-//-     expect($("option[value='George']").text()).to.equal("George");
-//-     expect($("option[value='Scooby-Doo']").text()).to.equal("Scooby-Doo");
-//-   });
-
-//-   it("renders a checkbox for iceCream", () => {
-//-     expect($("input[type='checkbox'][name='iceCream']").length).to.equal(1);
-//-   });
