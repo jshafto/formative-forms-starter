@@ -1,14 +1,19 @@
 extends layout
 
 block content
+    ul
+        if errors
+            p The following errors were found:
+                each error in errors
+                    li= error
     form(method="post" action="/create")
         input(type="hidden" name="_csrf" value="csurfToken")
         label(for="firstName") First name:
-        input(type="text" id="firstName" name="firstName")
+        input(type="text" id="firstName" name="firstName" value=firstName)
         label(for="lastName") Last name:
-        input(type="text" id="lastName" name="lastName")
+        input(type="text" id="lastName" name="lastName" value=lastName)
         label(for="email") Email:
-        input(type="email" id="email" name="email")
+        input(type="email" id="email" name="email" value=email)
         label(for="password") Password:
         input(type="password" id="password" name="password")
         label(for="comfirmedPassword")

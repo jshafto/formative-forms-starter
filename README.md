@@ -15,7 +15,7 @@ The finished web application has the following features:
 ## Project Status
 - [x] Create home page
 - [x] Create normal user form
-- [ ] Submitting the form
+- [x] Submitting the form
 - [ ] Create interesting user form
 - [ ] Submit create interesting user form
 - [ ] Bonus: express-validation library
