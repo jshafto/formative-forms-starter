@@ -44,6 +44,10 @@ app.post('/create', (req, res) => {
 
 })
 
+app.get("/create-interesting", csrfProtection, (req, res) => {
+  res.render("create-interesting", {csrfToken: req.csrfToken()})
+})
+
 
 const users = [
   {
