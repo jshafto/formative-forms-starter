@@ -1,4 +1,5 @@
 const express = require("express");
+const { body, validationResult } = require('express-validator');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,6 +24,19 @@ const formValidation = (req, res, next) => {
   next()
 }
 
+
+const validator = [ formValidation,
+  body('password').isLength({ min: 5 }).withMessage('must be at least 5 chars long'),
+  body('password').matches(/\d/).withMessage('must contain a number'),
+  body('email').isEmail().withMessage('must be an email address'),
+]
+const interestingValidator = [...validator,
+  body('age').exists({checkFalsy:true}).withMessage('is required'),
+  body('age').isInt({gt: 0, lt: 120}).withMessage('must be a valid age'),
+  body('favoriteBeatle').exists({checkFalsy:true}).withMessage('is required'),
+  body('favoriteBeatle').isIn(["John", "Paul", "George", "Ringo"]).withMessage('must be a real Beatle member')
+];
+
 app.get("/",(req, res) => {
   res.render('index', {users})
 });
@@ -31,7 +45,7 @@ app.get("/create", csrfProtection,(req, res) => {
   res.render('create-normal', {csrfToken: req.csrfToken()})
 });
 
-app.post('/create', formValidation,(req, res) => {
+app.post('/create',  validator, (req, res) => {
   const { firstName, lastName, email} = req.body;
   if (req.errors.length>0) {
     res.render('create-normal', {firstName, lastName, email, errors: req.errors});
@@ -53,13 +67,10 @@ app.get("/create-interesting", csrfProtection, (req, res) => {
   res.render("create-interesting", {csrfToken: req.csrfToken()})
 })
 
-app.post('/create-interesting', formValidation,(req, res) => {
+app.post('/create-interesting', interestingValidator ,(req, res) => {
   const { firstName, lastName, email, age, favoriteBeatle, iceCream} = req.body;
-  if (!age) req.errors.push("age is required");
-  if (!parseInt(age, 10) || parseInt(age, 10)<0 || parseInt(age, 10)>120) req.errors.push('age must be a valid age');
-  if (!favoriteBeatle) req.errors.push("favoriteBeatle is required")
-  if (favoriteBeatle==="Scooby-Doo") req.errors.push("favoriteBeatle must be a real Beatle member")
-
+  let pwordErrs = validationResult(req)
+  if (!pwordErrs.isEmpty()) req.errors.push(...pwordErrs.array().map(el=>`${el.param} ${el.msg}`))
 
   if (req.errors.length>0) {
     res.render('create-interesting', {firstName, lastName, email, age, favoriteBeatle, iceCream, errors: req.errors});

@@ -17,5 +17,10 @@ The finished web application has the following features:
 - [x] Create normal user form
 - [x] Submitting the form
 - [x] Create interesting user form
-- [x] Submit create interesting user form
-- [ ] Bonus: express-validation library
+- [x] Submit create-interesting-user form
+- Bonus: Use express-validation library for
+    - [x] Password checking
+    - [x] Email validation
+    - [x] Age validation
+    - [x] Beatles validation
+    - [ ] All other validations
